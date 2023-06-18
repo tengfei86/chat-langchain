@@ -15,11 +15,12 @@ from schemas import ChatResponse
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 vectorstore: Optional[VectorStore] = None
-
+import os
 
 @app.on_event("startup")
 async def startup_event():
     logging.info("loading vectorstore")
+    os.environ['OPENAI_API_KEY'] = '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'
     if not Path("vectorstore.pkl").exists():
         raise ValueError("vectorstore.pkl does not exist, please run ingest.py first")
     with open("vectorstore.pkl", "rb") as f:
